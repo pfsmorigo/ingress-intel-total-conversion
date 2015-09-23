@@ -81,6 +81,19 @@ window.plugin.portalslist.fields = [
     }
   },
   {
+    title: "Owner",
+    value: function(portal) {
+        var details = window.portalDetail.get(portal.options.guid);
+        if (details) {
+            return details.owner;
+        }
+        else return "What?"
+    },
+    format: function(cell, portal, value) {
+      $(cell).text(portal.options.team===TEAM_NONE ? '-' : value);
+    }
+  },
+  {
     title: "Health",
     value: function(portal) { return portal.options.data.health; },
     sortValue: function(value, portal) { return portal.options.team===TEAM_NONE ? -1 : value; },
