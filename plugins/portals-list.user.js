@@ -105,6 +105,17 @@ window.plugin.portalslist.fields = [
     defaultOrder: -1,
   },
   {
+    title: "Days",
+    value: function(portal) { return portal.options.data.health; },
+    sortValue: function(value, portal) { return portal.options.team===TEAM_NONE ? -1 : value; },
+    format: function(cell, portal, value) {
+      $(cell)
+        .addClass("alignR")
+        .text(portal.options.team===TEAM_NONE ? '-' : Math.round(value/15));
+    },
+    defaultOrder: -1,
+  },
+  {
     title: "Res",
     value: function(portal) { return portal.options.data.resCount; },
     format: function(cell, portal, value) {
