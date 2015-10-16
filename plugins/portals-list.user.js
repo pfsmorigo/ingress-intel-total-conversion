@@ -84,10 +84,12 @@ window.plugin.portalslist.fields = [
     title: "Owner",
     value: function(portal) {
         var details = window.portalDetail.get(portal.options.guid);
-        if (details) {
-            return details.owner;
-        }
-        else return "What?"
+        if (details)
+			return details.owner;
+		else {
+			renderPortalDetails(portal.options.guid);
+			return "?"
+		}
     },
     format: function(cell, portal, value) {
       $(cell).text(portal.options.team===TEAM_NONE ? '-' : value);
