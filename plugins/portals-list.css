@@ -41,8 +41,8 @@
 }
 
 #portalslist table .portalTitle {
-  min-width: 180px !important;
-  max-width: 320px !important;
+  min-width: 120px !important;
+  max-width: 240px !important;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
