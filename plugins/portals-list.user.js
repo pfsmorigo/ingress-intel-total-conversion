@@ -129,6 +129,29 @@ window.plugin.portalslist.fields = [
     },
     defaultOrder: -1,
   },
+{
+	title: "Mods",
+	value: function(portal) {
+		var total = 0;
+		var mine = 0;
+		var details = window.portalDetail.get(portal.options.guid);
+		if (details) {
+			for (var i = 0, len = details.mods.length; i < len; i++) {
+				if (details.mods[i] != null) {
+					total++;
+					if (details.mods[i].owner === window.PLAYER.nickname) mine++;
+				}
+			}
+			return mine + " | " + total;
+		}
+		else return "?"
+	},
+	format: function(cell, portal, value) {
+		$(cell)
+			.addClass("alignR")
+			.text(portal.options.team === TEAM_NONE ? '-' : value);
+	}
+},
   {
     title: "Links",
     value: function(portal) { return window.getPortalLinks(portal.options.guid); },
