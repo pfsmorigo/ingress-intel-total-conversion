@@ -22,16 +22,25 @@ function wrapper() {
     var self = window.plugin.report;
     self.gen = function gen() {
         var o = [];
-		var guid = ["c28b941cb3514739a7bc91d7307943ed.16", "7ab69a12e726497988d2dfdc1285e085.16", "5042c24abcda4f18aacf57c550a742b6.16", "3644062581bf4405b116d9478928eb0e.16"];
+		var guid = [];
 		var mod_list = "";
 		var reso_list = "";
 		var reso_counter = 0;
 
+		var list = window.plugin.bookmarks.bkmrksObj['portals'];
+		for(var idFolders in list) {
+			var folder = list[idFolders];
+            if (folder.label != "Report") continue;
+            var fold = folder['bkmrk'];
+			for(var idBkmrk in fold) {
+				var bkmrk = fold[idBkmrk];
+                guid.push(bkmrk['guid']);
+			}
+		}
 
 		for (i = 0; i < guid.length; i++)
 			renderPortalDetails(guid[i]);
 
-		o.push("```");
 		for (i = 0; i < guid.length; i++) {
 			var details = window.portalDetail.get(guid[i]);
 			if (details) {
@@ -71,7 +80,6 @@ function wrapper() {
 			reso_list = "";
 			reso_counter = 0;
         }
-		o.push("```");
 
         var dialog = window.dialog({
             title: "Portal Report",
@@ -108,3 +116,4 @@ function wrapper() {
 var script = document.createElement("script");
 script.appendChild(document.createTextNode("(" + wrapper + ")();"));
 (document.body || document.head || document.documentElement).appendChild(script);
+
