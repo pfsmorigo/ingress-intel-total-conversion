@@ -45,7 +45,7 @@ function wrapper() {
 			var details = window.portalDetail.get(guid[i]);
 			if (details) {
 				//o.push('<b>Portal details:</b><pre>'+JSON.stringify(details, null, 2)+'</pre>');
-				o.push("[L" + details.level + "] " + details.title + " (" + details.owner + ")");
+				o.push("[L" + details.level + "] " + details.title);
 
 				for (j = 0, len = details.resonators.length; j < len; j++) {
 					if (details.resonators[j] !== null)
@@ -59,14 +59,18 @@ function wrapper() {
 
 				for (j = 0, len = details.mods.length; j < len; j++) {
 					if (details.mods[j] !== null) {
-						mod = details.mods[j].name + details.mods[j].rarity;
+						mod = details.mods[j].rarity + details.mods[j].name;
 
 						mod = mod.replace("Portal Shield", "PS");
 						mod = mod.replace("Multi-hack", "MH");
 						mod = mod.replace("Heat Sink", "HS");
+						mod = mod.replace("RARELink Amp", "LA");
+						mod = mod.replace("RARETurret", "T");
+						mod = mod.replace("RAREForce Amp", "FA");
+						mod = mod.replace("VERY_RAREAXA Shield", "AXA");
 						mod = mod.replace("VERY_RARE", "VR");
 						mod = mod.replace("RARE", "R");
-						mod = mod.replace("COMMON", "C");
+						mod = mod.replace("COMMON", "");
 
 						mod_list += mod + " (" + details.mods[j].owner + "), ";
 					}
