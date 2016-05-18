@@ -1,10 +1,10 @@
 // ==UserScript==
-// @id             iitc-plugin-report@pfsmorigo
+// @id             iitc-plugin-portals_report@pfsmorigo
 // @name           IITC plugin: Report Status
 // @category       Keys
 // @version        0.1
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
-// @description    Exports a report of some portal states
+// @description    Exports a report of portals state
 // @include        https://www.ingress.com/intel*
 // @include        http://www.ingress.com/intel*
 // @match          https://www.ingress.com/intel*
@@ -18,8 +18,8 @@ function wrapper() {
         window.plugin = function() {};
     }
     // base context for plugin
-    window.plugin.report = function() {};
-    var self = window.plugin.report;
+    window.plugin.portals_report = function() {};
+    var self = window.plugin.portals_report;
     self.gen = function gen() {
         var o = [];
 		var guid = [];
@@ -102,7 +102,7 @@ function wrapper() {
     // setup function called by IITC
     self.setup = function init() {
         // add controls to toolbox
-        var link = $("<a onclick=\"window.plugin.report.gen();\" title=\"Generate a report of portals.\">Report</a>");
+        var link = $("<a onclick=\"window.plugin.portals_report.gen();\" title=\"Generate a report of portals state.\">Report</a>");
         $("#toolbox").append(link);
         // delete setup to ensure init can't be run again
         delete self.setup;
