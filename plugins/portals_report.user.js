@@ -41,16 +41,11 @@ function report() {
 			}
 		}
 
-        /* Cache details node of portals to get necessary info. */
-		for (i = 0; i < guid.length; i++)
-        {
-            if (guid && !portalDetail.isFresh(guid))
-                portalDetail.request(guid);
-        }
-
         for (i = 0; i < guid.length; i++) {
+            if (!portalDetail.isFresh(guid[i]))
+                portalDetail.request(guid[i]);
+
 			var details = portalDetail.get(guid[i]);
-            var counter = 1000;
 
 			if (details) {
 				//o.push('<b>Portal details:</b><pre>'+JSON.stringify(details, null, 2)+'</pre>');
@@ -130,4 +125,5 @@ function report() {
 var script = document.createElement("script");
 script.appendChild(document.createTextNode("(" + report + ")();"));
 (document.body || document.head || document.documentElement).appendChild(script);
+
 
