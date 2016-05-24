@@ -1,10 +1,12 @@
 // ==UserScript==
-// @id             iitc-plugin-portals_report@pfsmorigo
-// @name           IITC plugin: Report Status
-// @category       Keys
-// @version        0.1
+// @id             iitc-plugin-portals-report@pfsmorigo
+// @name           IITC plugin: Portals Report
+// @category       Misc
+// @version        1.1
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
-// @description    Exports a report of portals state
+// @updateURL      https://github.com/pfsmorigo/ingress-intel-total-conversion/raw/pfsmorigo/plugins/portals_report.user.js
+// @downloadURL    https://github.com/pfsmorigo/ingress-intel-total-conversion/raw/pfsmorigo/plugins/portals_report.user.js
+// @description    Exports a report of some portal states
 // @include        https://www.ingress.com/intel*
 // @include        http://www.ingress.com/intel*
 // @match          https://www.ingress.com/intel*
@@ -12,14 +14,14 @@
 // @grant          none
 // ==/UserScript==
 
-function wrapper() {
-    // in case IITC is not available yet, define the base plugin object
+function report() {
+    /* in case IITC is not available yet, define the base plugin object */
     if (typeof window.plugin !== "function") {
         window.plugin = function() {};
     }
-    // base context for plugin
-    window.plugin.portals_report = function() {};
-    var self = window.plugin.portals_report;
+
+    window.plugin.report = function() {};
+    var self = window.plugin.report;
     self.gen = function gen() {
         var o = [];
 		var guid = [];
@@ -27,6 +29,7 @@ function wrapper() {
 		var reso_list = "";
 		var reso_counter = 0;
 
+        /* Read list of portals inside Report folder */
 		var list = window.plugin.bookmarks.bkmrksObj['portals'];
 		for(var idFolders in list) {
 			var folder = list[idFolders];
@@ -38,11 +41,17 @@ function wrapper() {
 			}
 		}
 
+        /* Cache details node of portals to get necessary info. */
 		for (i = 0; i < guid.length; i++)
-			renderPortalDetails(guid[i]);
+        {
+            if (guid && !portalDetail.isFresh(guid))
+                portalDetail.request(guid);
+        }
 
-		for (i = 0; i < guid.length; i++) {
-			var details = window.portalDetail.get(guid[i]);
+        for (i = 0; i < guid.length; i++) {
+			var details = portalDetail.get(guid[i]);
+            var counter = 1000;
+
 			if (details) {
 				//o.push('<b>Portal details:</b><pre>'+JSON.stringify(details, null, 2)+'</pre>');
 				o.push("[L" + details.level + "] " + details.title);
@@ -102,7 +111,7 @@ function wrapper() {
     // setup function called by IITC
     self.setup = function init() {
         // add controls to toolbox
-        var link = $("<a onclick=\"window.plugin.portals_report.gen();\" title=\"Generate a report of portals state.\">Report</a>");
+        var link = $("<a onclick=\"window.plugin.report.gen();\" title=\"Generate a report of portals.\">Report</a>");
         $("#toolbox").append(link);
         // delete setup to ensure init can't be run again
         delete self.setup;
@@ -116,8 +125,9 @@ function wrapper() {
         window.bootPlugins = [self.setup];
     }
 }
+
 // inject plugin into page
 var script = document.createElement("script");
-script.appendChild(document.createTextNode("(" + wrapper + ")();"));
+script.appendChild(document.createTextNode("(" + report + ")();"));
 (document.body || document.head || document.documentElement).appendChild(script);
 
